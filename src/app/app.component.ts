@@ -11,8 +11,9 @@ import { invoke } from "@tauri-apps/api/core";
 import { create, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { FileServiseService } from "./file-servise.service";
 import { AppData } from "./app.data";
-// import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
+//import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import * as monaco from "monaco-editor";
+import { diffLines } from "diff";
 
 @Component({
   selector: "app-root",
@@ -79,11 +80,24 @@ export class AppComponent implements AfterViewInit {
 
   updateDifference(newCode: string | undefined) {
     if (!newCode) return;
-    this.diffCodeEditor?.setValue(newCode);
+    const differences = diffLines(
+      this.currentEdditor?.getValue()!,
+      this.newEditor?.getValue()!,
+      { ignoreWhitespace: true }
+    );
+    const diffResults = differences
+      .map((part) => {
+        if (part.added) return `+ ${part.value.trim()}`;
+        if (part.removed) return `- ${part.value.trim()}`;
+        return "";
+      })
+      .join("\n");
+    console.log(diffResults);
+    this.diffCodeEditor?.setValue(diffResults);
   }
 
   constructor() {
-    //  this.addDiff();
+    this.addDiff();
     this.loadAllFiles();
   }
 
@@ -95,6 +109,14 @@ export class AppComponent implements AfterViewInit {
   }
 
   async addDiff() {
-    this.fileService.addDiff("");
+    const text = this.diffCodeEditor?.getValue();
+    const newText = this.newEditor?.getValue();
+    if (!text) return;
+    if (!newText) return;
+
+    this.fileService.updateDBSchema(newText);
+    this.fileService.addDiff(text);
+    this.currentEdditor?.setValue(newText);
+    this.diffCodeEditor?.setValue("");
   }
 }

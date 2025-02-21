@@ -7,6 +7,7 @@ import {
   readDir,
   stat,
   readFile,
+  writeFile,
 } from "@tauri-apps/plugin-fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { AppData, File } from "./app.data";
@@ -82,6 +83,12 @@ export class FileServiseService {
       this.appData.dbSchemaName
     );
     console.log(this.appData.dbSchema);
+  }
+
+  async updateDBSchema(content: string) {
+    const path = `${await appDataDir()}\\${this.appData.dbSchemaName}`;
+    const uint8Array = new TextEncoder().encode(content);
+    await writeFile(path, uint8Array);
   }
 
   decoder = new TextDecoder("utf-8");
