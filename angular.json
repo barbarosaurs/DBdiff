@@ -27,7 +27,8 @@
                 "input": "node_modules/monaco-editor/min",
                 "output": "/assets/monaco/"
               }
-            ]
+            ],
+            "styles": ["node_modules/normalize.css/normalize.css"]
           },
           "configurations": {
             "production": {

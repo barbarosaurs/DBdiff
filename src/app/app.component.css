@@ -1,0 +1,19 @@
+@import "normalize.css";
+
+.board {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  background-color: whitesmoke;
+  align-items: end;
+  gap: 20px;
+}
+
+.board_1 {
+  width: 25%;
+  height: 80%;
+  border-radius: 20px;
+  border: 10px solid gray;
+  margin: 20px;
+}
