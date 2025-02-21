@@ -1,25 +1,59 @@
 @import "normalize.css";
 
-.board {
+html {
+  font-family: "Inter", sans-serif;
   height: 100vh;
-  width: 100vw;
+}
+
+.board {
+  height: 95vh;
+  width: 90vw;
   display: flex;
   flex-direction: row;
   background-color: whitesmoke;
-  align-items: end;
+  padding: 10px;
+}
+
+.nice_text {
+  font-size: 2rem;
+}
+
+.title-of-code {
+  display: flex;
+  width: 100%;
   gap: 20px;
+  justify-content: left;
+  align-items: center;
 }
 
 .board_box {
   width: 25%;
-  height: 80%;
-  border-radius: 20px;
-  border: 10px solid gray;
-  margin: 20px;
+  height: 100%;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-inline: 10px;
 }
 
 .board_1 {
+  border: 5px solid black;
+  border-radius: 20px;
   width: 100%;
   height: 100%;
+}
+
+.list-of-diffs {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  align-items: center;
+  gap: 5px;
+}
+
+.diff-box {
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 20px;
 }

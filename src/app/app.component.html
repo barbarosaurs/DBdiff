@@ -1,9 +1,28 @@
 <div class="board">
   <div class="board_box">
-    <p-button label="Submit" />
+    <div class="title-of-code">
+      <div class="nice_text">Current version</div>
+    </div>
     <div #editorContainer class="board_1"></div>
   </div>
   <div class="board_box">
+    <div class="title-of-code">
+      <div class="nice_text">New version</div>
+    </div>
     <div #editorContainer2 class="board_1"></div>
+  </div>
+  <div class="board_box">
+    <div class="title-of-code">
+      <div class="nice_text">Differenve</div>
+      <button>Save diff</button>
+    </div>
+    <div #diffCodeEditor class="board_1"></div>
+  </div>
+  <div class="list-of-diffs">
+    @for (diffFiles of appData.diffs; track $index) {
+    <div class="diff-box">
+      <div>{{ diffFiles.name }}</div>
+    </div>
+    }
   </div>
 </div>

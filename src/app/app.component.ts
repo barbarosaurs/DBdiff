@@ -11,13 +11,13 @@ import { invoke } from "@tauri-apps/api/core";
 import { create, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { FileServiseService } from "./file-servise.service";
 import { AppData } from "./app.data";
+// import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import * as monaco from "monaco-editor";
-import { ButtonModule } from "primeng/button";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [CommonModule, ButtonModule],
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
@@ -28,29 +28,59 @@ export class AppComponent implements AfterViewInit {
   @ViewChild("editorContainer2", { static: false })
   editorContainer2!: ElementRef<HTMLDivElement>;
 
-  private editor?: monaco.editor.IStandaloneCodeEditor;
-  private editor2?: monaco.editor.IStandaloneCodeEditor;
+  @ViewChild("diffCodeEditor", { static: false })
+  diffCodeEditorHTML!: ElementRef<HTMLDivElement>;
+
+  private currentEdditor?: monaco.editor.IStandaloneCodeEditor;
+  private newEditor?: monaco.editor.IStandaloneCodeEditor;
+  private diffCodeEditor?: monaco.editor.IStandaloneCodeEditor;
   ngAfterViewInit(): void {
     // Create the Monaco Editor instance after the view (DOM) is initialized
-    this.editor = monaco.editor.create(this.editorContainer.nativeElement, {
+    this.currentEdditor = monaco.editor.create(
+      this.editorContainer.nativeElement,
+      {
+        value: "",
+        language: "javascript",
+        theme: "vs-dark",
+        automaticLayout: true,
+        readOnly: true,
+        minimap: { enabled: false },
+      }
+    );
+
+    this.newEditor = monaco.editor.create(this.editorContainer2.nativeElement, {
       value: "",
       language: "javascript",
       theme: "vs-dark",
       automaticLayout: true,
+      minimap: { enabled: false },
     });
 
-    this.editor2 = monaco.editor.create(this.editorContainer2.nativeElement, {
-      value: "",
-      language: "javascript",
-      theme: "vs-dark",
-      automaticLayout: true,
+    this.diffCodeEditor = monaco.editor.create(
+      this.diffCodeEditorHTML.nativeElement,
+      {
+        value: "",
+        language: "javascript",
+        theme: "vs-dark",
+        automaticLayout: true,
+        readOnly: true,
+        minimap: { enabled: false },
+      }
+    );
+    this.newEditor.getModel()?.onDidChangeContent((newCode) => {
+      this.updateDifference(this.newEditor?.getValue());
     });
   }
 
   fileService = inject(FileServiseService);
-  appData = inject(AppData);
+  public appData = inject(AppData);
 
   greetingMessage = "";
+
+  updateDifference(newCode: string | undefined) {
+    if (!newCode) return;
+    this.diffCodeEditor?.setValue(newCode);
+  }
 
   constructor() {
     //  this.addDiff();
@@ -60,7 +90,7 @@ export class AppComponent implements AfterViewInit {
   async loadAllFiles() {
     await this.fileService.loadDBSchema();
     await this.fileService.loadAllDifs();
-    this.editor?.setValue(this.appData.dbSchema.content);
+    this.currentEdditor?.setValue(this.appData.dbSchema.content);
     console.log(this.appData.dbSchema.content);
   }
 
