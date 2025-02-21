@@ -10,10 +10,16 @@
   gap: 20px;
 }
 
-.board_1 {
+.board_box {
   width: 25%;
   height: 80%;
   border-radius: 20px;
   border: 10px solid gray;
   margin: 20px;
+  display: flex;
+}
+
+.board_1 {
+  width: 100%;
+  height: 100%;
 }

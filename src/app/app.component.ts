@@ -16,7 +16,7 @@ import * as monaco from "monaco-editor";
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
