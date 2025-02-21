@@ -12,11 +12,12 @@ import { create, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { FileServiseService } from "./file-servise.service";
 import { AppData } from "./app.data";
 import * as monaco from "monaco-editor";
+import { ButtonModule } from "primeng/button";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonModule],
   templateUrl: "./app.component.html",
   styleUrl: "./app.component.css",
 })
