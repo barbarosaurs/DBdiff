@@ -55,7 +55,7 @@ export class FileServiseService {
   async addDiff(diff: string) {
     const timeStamp = this.getCurrentTimeStamp();
     const file = await create(
-      `${this.appData.diffFoldrName}\\${timeStamp}.txt`,
+      `${this.appData.diffFoldrName}\\diff-${timeStamp}.txt`,
       {
         baseDir: BaseDirectory.AppData,
       }
@@ -104,6 +104,12 @@ export class FileServiseService {
       this.appData.diffs.push(file);
     }
 
+    this.appData.diffs.sort((a, b) => {
+      const timeA = a.creationTime ? a.creationTime.getTime() : 0;
+      const timeB = b.creationTime ? b.creationTime.getTime() : 0;
+      return timeB - timeA; // Newest first
+    });
+
     console.log(this.appData.diffs);
   }
 
@@ -117,5 +123,10 @@ export class FileServiseService {
       content: decodedString,
       name: name,
     } as File;
+  }
+
+  async clearHistory() {
+    const path = `${await appDataDir()}\\${this.appData.diffFoldrName}`;
+    console.log(path);
   }
 }

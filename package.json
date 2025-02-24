@@ -22,6 +22,8 @@
     "@tauri-apps/api": "^2.2.0",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
+    "ace-builds": "^1.39.0",
+    "ace-diff": "^3.0.3",
     "diff": "^7.0.0",
     "ngx-ace-wrapper": "^17.0.0",
     "normalize.css": "^8.0.1",

@@ -1,3 +1,5 @@
+<p-toast />
+<p-confirmdialog />
 <div class="board">
   <div class="board_box">
     <div class="title-of-code">
@@ -9,7 +11,7 @@
     <div class="title-of-code">
       <div class="nice_text">New version</div>
     </div>
-    <div #editorContainer2 class="board_1"></div>
+    <div #newVersionEdditor class="board_1"></div>
   </div>
   <div class="board_box">
     <div class="title-of-code">
@@ -19,14 +21,26 @@
   </div>
   <div class="board_box">
     <div class="title-of-code">
-      <p-button
-        label="Save"
-        [size]="'small'"
-        [icon]="'pi pi-save'"
-        [severity]="'secondary'"
-      ></p-button>
+      <div class="diff-box-buttons-good">
+        <p-button
+          label="Save"
+          (onClick)="conformForSave($event)"
+          [size]="'small'"
+          [icon]="'pi pi-save'"
+          [severity]="'secondary'"
+        ></p-button>
+        <p-button
+          pTooltip="Open in file path"
+          showDelay="500"
+          hideDelay="200"
+          [size]="'small'"
+          [icon]="'pi pi-file'"
+          [severity]="'secondary'"
+        ></p-button>
+      </div>
       <p-button
         label="Delete"
+        (onClick)="confirmForClear($event)"
         [size]="'small'"
         [icon]="'pi pi-trash'"
         [severity]="'warn'"
@@ -36,24 +50,17 @@
       @for (diffFiles of appData.diffs; track $index) {
       <div class="diff-box">
         <div class="diff-box-text">{{ diffFiles.name }}</div>
-        <p-button
-          pTooltip="Open in file path"
-          showDelay="500"
-          hideDelay="200"
-          tooltipPosition="left"
-          [size]="'small'"
-          [icon]="'pi pi-file'"
-          [severity]="'secondary'"
-        ></p-button>
-        <p-button
-          showDelay="500"
-          hideDelay="200"
-          pTooltip="Copy to cliboard"
-          tooltipPosition="left"
-          [size]="'small'"
-          [icon]="'pi pi-clipboard'"
-          [severity]="'secondary'"
-        ></p-button>
+        <div class="diff-box-buttons">
+          <p-button
+            showDelay="500"
+            hideDelay="200"
+            pTooltip="Copy to cliboard"
+            tooltipPosition="left"
+            [size]="'small'"
+            [icon]="'pi pi-clipboard'"
+            [severity]="'info'"
+          ></p-button>
+        </div>
       </div>
       }
     </p-scrollpanel>
