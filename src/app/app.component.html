@@ -52,6 +52,7 @@
         <div class="diff-box-text">{{ diffFiles.name }}</div>
         <div class="diff-box-buttons">
           <p-button
+            (onClick)="copyToCliboard(diffFiles.content)"
             showDelay="500"
             hideDelay="200"
             pTooltip="Copy to cliboard"

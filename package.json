@@ -20,6 +20,7 @@
     "@angular/router": "^19.1.7",
     "@primeng/themes": "^19.0.7",
     "@tauri-apps/api": "^2.2.0",
+    "@tauri-apps/plugin-clipboard-manager": "^2.2.1",
     "@tauri-apps/plugin-fs": "^2.2.0",
     "@tauri-apps/plugin-opener": "^2",
     "ace-builds": "^1.39.0",

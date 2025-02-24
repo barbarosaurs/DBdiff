@@ -12,17 +12,27 @@
     "core:menu:default",
     "core:tray:default",
     "core:window:allow-set-title",
+    "clipboard-manager:allow-write-text",
     "fs:allow-mkdir",
     "fs:default",
     "fs:allow-stat",
     "fs:allow-create",
     {
       "identifier": "fs:allow-appdata-write",
-      "allow": [{ "path": "$APPDATA/**" }]
+      "allow": [
+        {
+          "path": "$APPDATA/**"
+        }
+      ]
     },
     {
       "identifier": "fs:allow-stat",
-      "allow": [{ "path": "$APPDATA/**" }]
-    }
+      "allow": [
+        {
+          "path": "$APPDATA/**"
+        }
+      ]
+    },
+    "clipboard-manager:default"
   ]
 }

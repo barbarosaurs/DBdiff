@@ -22,6 +22,7 @@ import { ConfirmDialog } from "primeng/confirmdialog";
 import { ToastModule } from "primeng/toast";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { Tooltip } from "primeng/tooltip";
+import { writeText } from "@tauri-apps/plugin-clipboard-manager";
 
 @Component({
   selector: "app-root",
@@ -199,5 +200,15 @@ export class AppComponent implements AfterViewInit {
     await this.fileService.clearHistory();
     this.appData.diffs = [];
     this.loadAllFiles();
+  }
+
+  async copyToCliboard(fileContent: string) {
+    console.log(fileContent);
+    await writeText(fileContent);
+    this.messageService.add({
+      severity: "success",
+      summary: "Success",
+      detail: "Copyed to clipboard.",
+    });
   }
 }
