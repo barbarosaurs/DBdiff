@@ -7,6 +7,7 @@ import {
   readDir,
   stat,
   readFile,
+  remove,
   writeFile,
 } from "@tauri-apps/plugin-fs";
 import { appDataDir } from "@tauri-apps/api/path";
@@ -125,8 +126,18 @@ export class FileServiseService {
     } as File;
   }
 
+  async getPath() {
+    return `${await appDataDir()}\\${this.appData.diffFoldrName}`;
+  }
+
   async clearHistory() {
-    const path = `${await appDataDir()}\\${this.appData.diffFoldrName}`;
-    console.log(path);
+    const entries = await readDir(`${this.appData.diffFoldrName}`, {
+      baseDir: BaseDirectory.AppData,
+    });
+    for (const entry of entries) {
+      await remove(`${this.appData.diffFoldrName}/${entry.name}`, {
+        baseDir: BaseDirectory.AppData,
+      });
+    }
   }
 }

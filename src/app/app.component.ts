@@ -211,4 +211,19 @@ export class AppComponent implements AfterViewInit {
       detail: "Copyed to clipboard.",
     });
   }
+
+  async openFilePath() {
+    // get path
+    const path = await this.fileService.getPath();
+    console.log(path);
+    debugger;
+    // open path
+    try {
+      await invoke("open_file_explorer", {
+        path,
+      });
+    } catch (error) {
+      console.error("Error opening file explorer:", error);
+    }
+  }
 }
