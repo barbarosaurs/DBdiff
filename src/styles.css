@@ -1,0 +1,12 @@
+@import "normalize.css";
+@import "primeicons/primeicons.css";
+
+body {
+  background-color: var(--p-surface-400) !important;
+}
+
+html {
+  font-family: "Inter", sans-serif;
+  height: 100vh;
+  width: 100vw;
+}

@@ -3,7 +3,7 @@
     <div class="title-of-code">
       <div class="nice_text">Current version</div>
     </div>
-    <div #editorContainer class="board_1"></div>
+    <div #curretVersionEdditor class="board_1"></div>
   </div>
   <div class="board_box">
     <div class="title-of-code">
@@ -13,16 +13,49 @@
   </div>
   <div class="board_box">
     <div class="title-of-code">
-      <div class="nice_text">Differenve</div>
-      <button (click)="addDiff()">Save diff</button>
+      <div class="nice_text">Difference</div>
     </div>
     <div #diffCodeEditor class="board_1"></div>
   </div>
-  <div class="list-of-diffs">
-    @for (diffFiles of appData.diffs; track $index) {
-    <div class="diff-box">
-      <div>{{ diffFiles.name }}</div>
+  <div class="board_box">
+    <div class="title-of-code">
+      <p-button
+        label="Save"
+        [size]="'small'"
+        [icon]="'pi pi-save'"
+        [severity]="'secondary'"
+      ></p-button>
+      <p-button
+        label="Delete"
+        [size]="'small'"
+        [icon]="'pi pi-trash'"
+        [severity]="'warn'"
+      ></p-button>
     </div>
-    }
+    <p-scrollpanel class="list-of-diffs">
+      @for (diffFiles of appData.diffs; track $index) {
+      <div class="diff-box">
+        <div class="diff-box-text">{{ diffFiles.name }}</div>
+        <p-button
+          pTooltip="Open in file path"
+          showDelay="500"
+          hideDelay="200"
+          tooltipPosition="left"
+          [size]="'small'"
+          [icon]="'pi pi-file'"
+          [severity]="'secondary'"
+        ></p-button>
+        <p-button
+          showDelay="500"
+          hideDelay="200"
+          pTooltip="Copy to cliboard"
+          tooltipPosition="left"
+          [size]="'small'"
+          [icon]="'pi pi-clipboard'"
+          [severity]="'secondary'"
+        ></p-button>
+      </div>
+      }
+    </p-scrollpanel>
   </div>
 </div>
