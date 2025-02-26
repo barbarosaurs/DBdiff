@@ -27,7 +27,7 @@ export class FileServiseService {
   async filesUtils() {
     this.path = await appDataDir();
     if (!(await exists(`${await appDataDir()}/diff`))) {
-      await mkdir("diff", { baseDir: BaseDirectory.AppData });
+      await mkdir("diff", { baseDir: BaseDirectory.AppData, recursive: true });
     }
     await this.creatScript();
   }

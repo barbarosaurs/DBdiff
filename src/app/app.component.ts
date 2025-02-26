@@ -58,10 +58,12 @@ export class AppComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.curentEditor = ace.edit(this.editorContainer.nativeElement);
     this.curentEditor.setFontSize(15);
-    this.curentEditor.session.setValue("Loading");
+    this.curentEditor.session.setValue("Pleas past init version");
 
+    this.curentEditor.session.setMode("ace/mode/dbml"); // Set DBML mode
     this.newVersionEdditor = ace.edit(this.newVersionContainer.nativeElement);
     this.newVersionEdditor.setFontSize(15);
+    this.newVersionEdditor.session.setMode("ace/mode/dbml"); // Set DBML mode
     this.newVersionEdditor.session.setValue("");
 
     this.diffCodeEditor = ace.edit(this.diffCodeContainer.nativeElement);
@@ -103,6 +105,9 @@ export class AppComponent implements AfterViewInit {
     private confirmationService: ConfirmationService,
     private messageService: MessageService
   ) {
+    ace.config.set("basePath", "assets/ace/");
+    ace.config.setModuleUrl("ace/theme/monokai", "assets/ace/theme-monokai.js");
+    ace.config.setModuleUrl("ace/mode/dbml", "assets/ace/mode-dbml.js");
     this.loadAllFiles();
   }
 
