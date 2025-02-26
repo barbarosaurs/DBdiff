@@ -83,7 +83,6 @@ export class FileServiseService {
       path,
       this.appData.dbSchemaName
     );
-    console.log(this.appData.dbSchema);
   }
 
   async updateDBSchema(content: string) {
@@ -110,8 +109,6 @@ export class FileServiseService {
       const timeB = b.creationTime ? b.creationTime.getTime() : 0;
       return timeB - timeA; // Newest first
     });
-
-    console.log(this.appData.diffs);
   }
 
   private async creatFileFrom(path: string, name: string) {

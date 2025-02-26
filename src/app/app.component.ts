@@ -12,7 +12,7 @@ import { create, BaseDirectory } from "@tauri-apps/plugin-fs";
 import { FileServiseService } from "./file-servise.service";
 import { AppData } from "./app.data";
 //import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-import { diffLines } from "diff";
+import { diffLines, diffArrays } from "diff";
 import { ButtonModule } from "primeng/button";
 import { AceModule } from "ngx-ace-wrapper";
 import { FormsModule } from "@angular/forms";
@@ -85,19 +85,51 @@ export class AppComponent implements AfterViewInit {
 
   updateDifference(newCode: string | undefined) {
     if (!newCode) return;
-    const differences = diffLines(
-      this.curentEditor?.getValue()!,
-      this.newVersionEdditor?.getValue()!,
-      { ignoreWhitespace: true }
-    );
+
+    const oldText = this.curentEditor?.getValue()!;
+    const newText = this.newVersionEdditor?.getValue()!;
+
+    // Split the text into lines
+    const oldLines = oldText.split("\n");
+    const newLines = newText.split("\n");
+
+    // Find differences between the lines
+    const differences = diffArrays(oldLines, newLines);
+
+    // Track the nearest table name for context
+    let currentTable = "";
+
+    // Format the differences with table context, skipping unchanged lines
     const diffResults = differences
       .map((part) => {
-        if (part.added) return `+ ${part.value.trim()}`;
-        if (part.removed) return `- ${part.value.trim()}`;
-        return "";
+        const lines = part.value;
+
+        return lines
+          .map((line) => {
+            // Check if the line defines a table
+            if (line.trim().startsWith("Table")) {
+              currentTable = line.trim(); // Update the current table name
+              if (currentTable[currentTable.length - 1] === "{") {
+                currentTable = currentTable.slice(0, -2);
+              }
+            }
+
+            // Add the table name as context for added/removed lines
+            if (part.added) {
+              return `+ [${currentTable}] ${line}`;
+            } else if (part.removed) {
+              return `- [${currentTable}] ${line}`;
+            } else {
+              return null; // Skip unchanged lines
+            }
+          })
+          .filter((line) => line !== null) // Remove null values (unchanged lines)
+          .join("\n");
       })
+      .filter((chunk) => chunk !== "") // Remove empty chunks
       .join("\n");
-    console.log(diffResults);
+
+    // Display the result in the diff editor
     this.diffCodeEditor?.setValue(diffResults);
   }
 
@@ -208,7 +240,6 @@ export class AppComponent implements AfterViewInit {
   }
 
   async copyToCliboard(fileContent: string) {
-    console.log(fileContent);
     await writeText(fileContent);
     this.messageService.add({
       severity: "success",
@@ -220,8 +251,6 @@ export class AppComponent implements AfterViewInit {
   async openFilePath() {
     // get path
     const path = await this.fileService.getPath();
-    console.log(path);
-    debugger;
     // open path
     try {
       await invoke("open_file_explorer", {
